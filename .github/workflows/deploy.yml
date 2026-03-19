@@ -18,28 +18,24 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
 
           script: |
-            cd /var/www/html
-            echo "Cloning the repo"
-            git clone git@github.com:ysachin438/ysachin438_portfolio.git
+            cd /home/ubuntu/apps/ysachin438_portfolio
 
-            cd ysachin438_portfolio
-            
-            echo "Pulling latest code..."
+            echo "✅ Pulling latest code..."
             git pull origin main
 
-            echo "Installing dependencies..."
+            echo "✅ Installing dependencies..."
             npm install
 
-            echo "Building project..."
+            echo "✅ Building project..."
             npm run build
 
             echo "Deploying to Nginx..."
-            sudo rm -rf /var/www/html/build/*
-            sudo cp -r dist/* /var/www/html/build/
+            sudo rm -rf /var/www/html/*
+            sudo cp -r dist/* /var/www/html/
             sudo chown -R www-data:www-data /var/www/html
             sudo chmod -R 755 /var/www/html
 
             echo "Restarting Nginx..."
             sudo systemctl restart nginx
 
-            echo "Deployment complete!"
+            echo "❤️ Deployment complete! ❤️"
