@@ -354,7 +354,7 @@ function App() {
             <div className="profile-visual">
               <div className="profile-photo-ring">
                 <div className="profile-photo">
-                  <span>SP</span>
+                  <span>SY</span>
                 </div>
               </div>
             </div>
@@ -554,23 +554,23 @@ function App() {
           <div className="contact-grid">
             <a className="contact-card" href="mailto:hello@portfolio.dev">
               <span>Email</span>
-              <strong>hello@portfolio.dev</strong>
+              <strong>ysachin0438@gmail.com</strong>
             </a>
             <a className="contact-card" href="https://github.com" target="_blank" rel="noreferrer">
               <span>GitHub</span>
-              <strong>github.com/portfolio</strong>
+              <strong>github.com/ysachin438</strong>
             </a>
             <a className="contact-card" href="https://linkedin.com" target="_blank" rel="noreferrer">
               <span>LinkedIn</span>
-              <strong>linkedin.com/in/portfolio</strong>
+              <strong>linkedin.com/in/ysachin438</strong>
             </a>
-            <a className="contact-card" href="https://dribbble.com" target="_blank" rel="noreferrer">
-              <span>Dribbble</span>
-              <strong>dribbble.com/portfolio</strong>
+            <a className="contact-card" href="https://x.com" target="_blank" rel="noreferrer">
+              <span>X</span>
+              <strong>x.com/ysachin438</strong>
             </a>
           </div>
         </section>
-        <p className="page-credit">created by - ysachin438</p>
+        <p className="page-credit">created by - ysachin438 ❤️</p>
       </main>
 
       {selectedProject ? (
