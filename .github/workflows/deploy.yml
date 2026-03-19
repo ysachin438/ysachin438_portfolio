@@ -18,8 +18,12 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
 
           script: |
-            cd /var/www/html/ysachin438_portfolio
+            cd /var/www/html
+            echo "Cloning the repo"
+            git clone git@github.com:ysachin438/ysachin438_portfolio.git
 
+            cd ysachin438_portfolio
+            
             echo "Pulling latest code..."
             git pull origin main
 
@@ -30,8 +34,8 @@ jobs:
             npm run build
 
             echo "Deploying to Nginx..."
-            sudo rm -rf /var/www/html/*
-            sudo cp -r dist/* /var/www/html/
+            sudo rm -rf /var/www/html/build/*
+            sudo cp -r dist/* /var/www/html/build/
             sudo chown -R www-data:www-data /var/www/html
             sudo chmod -R 755 /var/www/html
 
