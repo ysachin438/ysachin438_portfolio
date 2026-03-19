@@ -32,6 +32,8 @@ jobs:
             echo "Deploying to Nginx..."
             sudo rm -rf /var/www/html/*
             sudo cp -r dist/* /var/www/html/
+            sudo chown -R www-data:www-data /var/www/html
+            sudo chmod -R 755 /var/www/html
 
             echo "Restarting Nginx..."
             sudo systemctl restart nginx
