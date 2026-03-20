@@ -136,6 +136,30 @@ const skills = [
   'Branch protection & PR workflows',
 ]
 
+const profilePhotoLink =
+  'https://drive.google.com/file/d/1QCWvLTOCIqRTsH1CgaVCxAsFN6d822j6/view?usp=sharing'
+
+function getProfilePhotoSrc(url) {
+  if (!url) {
+    return ''
+  }
+  
+  const driveFileMatch = url.match(/\/file\/d\/([^/]+)/)
+  if (driveFileMatch?.[1]) {
+    // Use proxy service to bypass CORS restrictions
+    const driveUrl = `https://drive.google.com/uc?id=${driveFileMatch[1]}`
+    return `https://images.weserv.nl/?url=${encodeURIComponent(driveUrl)}`
+  }
+
+  const driveIdMatch = url.match(/[?&]id=([^&]+)/)
+  if (driveIdMatch?.[1]) {
+    const driveUrl = `https://drive.google.com/uc?id=${driveIdMatch[1]}`
+    return `https://images.weserv.nl/?url=${encodeURIComponent(driveUrl)}`
+  }
+  
+  return url
+}
+
 function SkillIcon({ skill }) {
   const key = skill.toLowerCase()
 
@@ -290,9 +314,11 @@ function SkillIcon({ skill }) {
 function App() {
   const [selectedProjectId, setSelectedProjectId] = useState(null)
   const [cursorGlow, setCursorGlow] = useState({ x: 50, y: 50 })
+  const [imageFailed, setImageFailed] = useState(false)
   const selectedProject = projects.find(
     (project) => project.id === selectedProjectId,
   )
+  const profilePhotoSrc = getProfilePhotoSrc(profilePhotoLink)
 
   useEffect(() => {
     const handlePointerMove = (event) => {
@@ -320,6 +346,10 @@ function App() {
       document.body.style.overflow = ''
     }
   }, [selectedProject])
+
+  useEffect(() => {
+    setImageFailed(false)
+  }, [profilePhotoSrc])
 
   return (
     <div
@@ -354,7 +384,16 @@ function App() {
             <div className="profile-visual">
               <div className="profile-photo-ring">
                 <div className="profile-photo">
-                  <span>SY</span>
+                  {profilePhotoSrc && !imageFailed ? (
+                    <img
+                      src={profilePhotoSrc}
+                      alt="Profile portrait"
+                      className="profile-photo-image"
+                      onError={() => setImageFailed(true)}
+                    />
+                  ) : (
+                    <span>SY</span>
+                  )}
                 </div>
               </div>
             </div>
