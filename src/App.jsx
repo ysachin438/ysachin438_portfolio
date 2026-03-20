@@ -137,7 +137,7 @@ const skills = [
 ]
 
 const profilePhotoLink =
-  'https://drive.google.com/file/d/1QCWvLTOCIqRTsH1CgaVCxAsFN6d822j6/view?usp=sharing' 
+  'https://drive.google.com/file/d/1QCWvLTOCIqRTsH1CgaVCxAsFN6d822j6/view?usp=sharing'
 
 function getProfilePhotoSrc(url) {
   if (!url) {
