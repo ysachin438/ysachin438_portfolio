@@ -18,24 +18,32 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
 
           script: |
-            cd /home/ubuntu/apps/ysachin438_portfolio
-
-            echo "✅ Pulling latest code..."
-            git pull origin main
-
-            echo "✅ Installing dependencies..."
-            npm install
-
-            echo "✅ Building project..."
-            npm run build
-
-            echo "Deploying to Nginx..."
-            sudo rm -rf /var/www/html/*
-            sudo cp -r dist/* /var/www/html/
-            sudo chown -R www-data:www-data /var/www/html
-            sudo chmod -R 755 /var/www/html
-
-            echo "Restarting Nginx..."
-            sudo systemctl restart nginx
-
-            echo "❤️ Deployment complete! ❤️"
+            set -e
+            trap 'echo "❌ Error occurred at line $LINENO: command failed"; exit 1' ERR
+            
+            cd /home/ubuntu/apps/ysachin438_portfolio || { echo "❌ Failed to cd into project directory"; exit 1; }
+            
+            echo "[$(date +'%Y-%m-%d %H:%M:%S')] ✅ Pulling latest code..."
+            git pull origin main || { echo "❌ Git pull failed"; exit 1; }
+            
+            echo "[$(date +'%Y-%m-%d %H:%M:%S')] ✅ Installing dependencies..."
+            npm install || { echo "❌ npm install failed"; exit 1; }
+            
+            echo "[$(date +'%Y-%m-%d %H:%M:%S')] ✅ Building project..."
+            npm run build || { echo "❌ npm build failed"; exit 1; }
+            
+            if [ ! -d "dist" ]; then
+              echo "❌ Build directory 'dist' not found - build may have failed"
+              exit 1
+            fi
+            
+            echo "[$(date +'%Y-%m-%d %H:%M:%S')] 📦 Deploying to Nginx..."
+            sudo rm -rf /var/www/html/* || { echo "❌ Failed to clear nginx directory"; exit 1; }
+            sudo cp -r dist/* /var/www/html/ || { echo "❌ Failed to copy dist files"; exit 1; }
+            sudo chown -R www-data:www-data /var/www/html || { echo "❌ Failed to set ownership"; exit 1; }
+            sudo chmod -R 755 /var/www/html || { echo "❌ Failed to set permissions"; exit 1; }
+            
+            echo "[$(date +'%Y-%m-%d %H:%M:%S')] 🔄 Restarting Nginx..."
+            sudo systemctl restart nginx || { echo "❌ Nginx restart failed"; exit 1; }
+            
+            echo "[$(date +'%Y-%m-%d %H:%M:%S')] ❤️ Deployment complete! ❤️"
