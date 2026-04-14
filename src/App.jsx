@@ -4,6 +4,37 @@ const navItems = ['About', 'Projects', 'Resume', 'Contact']
 
 const projects = [
   {
+    id: 'kaam-kaaz',
+    title: 'Kaam Kaaz',
+    tag: 'Full Stack Task Manager',
+    summary:
+      'A fullstack task management app built for planning daily work, tracking progress, and managing tasks through a modern authenticated workflow.',
+    features: [
+      'JWT-based authentication with protected routes and secure user access.',
+      'Task CRUD flows with checklist or subtask progress tracking.',
+      'Profile management and dark-theme UI built with React and Material UI.',
+      'NestJS backend with TypeORM and relational database support for production-style architecture.',
+    ],
+    stack: [
+      'React',
+      'Material UI',
+      'NestJS',
+      'TypeORM',
+      'MySQL/PostgreSQL',
+      'JWT Auth',
+    ],
+    notes:
+      'Kaam Kaaz is a complete fullstack productivity app focused on practical daily usage. The project combines frontend task workflows, authenticated access control, and backend data modeling into a single system that is closer to a real product build than a small demo.',
+    screenshotTiles: ['Login screen', 'Dashboard view', 'Task details dialog'],
+    screenshotImages: [
+      'https://raw.githubusercontent.com/ysachin438/kaam-kaaz/main/screenshots/login.png',
+      'https://raw.githubusercontent.com/ysachin438/kaam-kaaz/main/screenshots/dashboard.png',
+      'https://raw.githubusercontent.com/ysachin438/kaam-kaaz/main/screenshots/task-details.png',
+    ],
+    screenLabel: 'Task manager overview',
+    palette: 'var(--gradient-pink)',
+  },
+  {
     id: 'educrypt-platform',
     title: 'EduCrypt',
     tag: 'Full Stack + DevOps',
@@ -146,15 +177,12 @@ function getProfilePhotoSrc(url) {
   
   const driveFileMatch = url.match(/\/file\/d\/([^/]+)/)
   if (driveFileMatch?.[1]) {
-    // Use proxy service to bypass CORS restrictions
-    const driveUrl = `https://drive.google.com/uc?id=${driveFileMatch[1]}`
-    return `https://images.weserv.nl/?url=${encodeURIComponent(driveUrl)}`
+    return `https://drive.google.com/thumbnail?id=${driveFileMatch[1]}&sz=w1200`
   }
 
   const driveIdMatch = url.match(/[?&]id=([^&]+)/)
   if (driveIdMatch?.[1]) {
-    const driveUrl = `https://drive.google.com/uc?id=${driveIdMatch[1]}`
-    return `https://images.weserv.nl/?url=${encodeURIComponent(driveUrl)}`
+    return `https://drive.google.com/thumbnail?id=${driveIdMatch[1]}&sz=w1200`
   }
   
   return url
@@ -311,8 +339,42 @@ function SkillIcon({ skill }) {
   )
 }
 
+function ContactIcon({ type }) {
+  if (type === 'email') {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 6.5h16v11H4z" />
+        <path d="m5.5 8 6.5 5 6.5-5" />
+      </svg>
+    )
+  }
+
+  if (type === 'github') {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 3.8a8.3 8.3 0 0 0-2.6 16.2v-2.8c-2 .4-2.5-.8-2.5-.8-.3-.8-.9-1.1-.9-1.1-.8-.5.1-.5.1-.5.8.1 1.3.9 1.3.9.8 1.3 2 1 2.5.8.1-.5.3-.9.5-1.1-1.6-.2-3.4-.8-3.4-3.8 0-.8.3-1.5.8-2-.1-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8a7.7 7.7 0 0 1 4 0c1.5-1 2.2-.8 2.2-.8.5 1.1.2 1.9.1 2.1.5.5.8 1.2.8 2 0 3-1.8 3.6-3.4 3.8.3.2.5.7.5 1.5V20A8.3 8.3 0 0 0 12 3.8Z" />
+      </svg>
+    )
+  }
+
+  if (type === 'linkedin') {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M6.7 8.3a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm-1.3 2h2.6v8.3H5.4Zm4.3 0h2.5v1.1h.1c.3-.7 1.2-1.4 2.4-1.4 2.6 0 3.1 1.7 3.1 4v4.6h-2.6v-4.1c0-1 0-2.2-1.4-2.2s-1.6 1-1.6 2.1v4.2H9.7Z" />
+      </svg>
+    )
+  }
+
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M6.2 5h3.1l3.2 4.3L16.2 5h1.7l-4.4 5.1L19 19h-3.1l-3.6-4.8L8 19H6.3l4.8-5.5z" />
+    </svg>
+  )
+}
+
 function App() {
   const [selectedProjectId, setSelectedProjectId] = useState(null)
+  const [isClosingProject, setIsClosingProject] = useState(false)
   const [cursorGlow, setCursorGlow] = useState({ x: 50, y: 50 })
   const [imageFailed, setImageFailed] = useState(false)
   const selectedProject = projects.find(
@@ -350,6 +412,15 @@ function App() {
   useEffect(() => {
     setImageFailed(false)
   }, [profilePhotoSrc])
+
+  const closeProjectOverlay = () => {
+    setIsClosingProject(true)
+
+    window.setTimeout(() => {
+      setSelectedProjectId(null)
+      setIsClosingProject(false)
+    }, 260)
+  }
 
   return (
     <div
@@ -488,25 +559,36 @@ function App() {
                     </div>
 
                     <div className="project-preview">
-                      <div
-                        className="screen-shot"
-                        style={{ '--project-gradient': project.palette }}
-                      >
-                        <div className="shot-topbar">
-                          <span />
-                          <span />
-                          <span />
+                      {project.screenshotImages?.[0] ? (
+                        <div className="screen-shot screen-shot-image-frame">
+                          <img
+                            src={project.screenshotImages[0]}
+                            alt={`${project.title} preview`}
+                            className="project-real-shot"
+                          />
+                          <p>{project.screenLabel}</p>
                         </div>
-                        <div className="shot-content">
-                          <div className="shot-graph" />
-                          <div className="shot-lines">
+                      ) : (
+                        <div
+                          className="screen-shot"
+                          style={{ '--project-gradient': project.palette }}
+                        >
+                          <div className="shot-topbar">
                             <span />
                             <span />
                             <span />
                           </div>
+                          <div className="shot-content">
+                            <div className="shot-graph" />
+                            <div className="shot-lines">
+                              <span />
+                              <span />
+                              <span />
+                            </div>
+                          </div>
+                          <p>{project.screenLabel}</p>
                         </div>
-                        <p>{project.screenLabel}</p>
-                      </div>
+                      )}
                     </div>
                   </div>
                 </article>
@@ -590,22 +672,44 @@ function App() {
             <h2>Let’s build something clear, fast, and visually sharp.</h2>
           </div>
 
-          <div className="contact-grid">
-            <a className="contact-card" href="mailto:hello@portfolio.dev">
-              <span>Email</span>
-              <strong>ysachin0438@gmail.com</strong>
+          <div className="contact-logos" aria-label="Contact links">
+            <a
+              className="contact-logo-link"
+              href="mailto:ysachin0438@gmail.com"
+              aria-label="Send email"
+              title="Email"
+            >
+              <ContactIcon type="email" />
             </a>
-            <a className="contact-card" href="https://github.com" target="_blank" rel="noreferrer">
-              <span>GitHub</span>
-              <strong>github.com/ysachin438</strong>
+            <a
+              className="contact-logo-link"
+              href="https://github.com/ysachin438"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="GitHub profile"
+              title="GitHub"
+            >
+              <ContactIcon type="github" />
             </a>
-            <a className="contact-card" href="https://linkedin.com" target="_blank" rel="noreferrer">
-              <span>LinkedIn</span>
-              <strong>linkedin.com/in/ysachin438</strong>
+            <a
+              className="contact-logo-link"
+              href="https://linkedin.com/in/ysachin438"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="LinkedIn profile"
+              title="LinkedIn"
+            >
+              <ContactIcon type="linkedin" />
             </a>
-            <a className="contact-card" href="https://x.com" target="_blank" rel="noreferrer">
-              <span>X</span>
-              <strong>x.com/ysachin438</strong>
+            <a
+              className="contact-logo-link"
+              href="https://x.com/ysachin438"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="X profile"
+              title="X"
+            >
+              <ContactIcon type="x" />
             </a>
           </div>
         </section>
@@ -614,11 +718,11 @@ function App() {
 
       {selectedProject ? (
         <div
-          className="project-overlay"
+          className={`project-overlay ${isClosingProject ? 'is-closing' : ''}`}
           role="dialog"
           aria-modal="true"
           aria-labelledby="project-overlay-title"
-          onClick={() => setSelectedProjectId(null)}
+          onClick={closeProjectOverlay}
         >
           <div
             className="project-overlay-panel glass-panel"
@@ -632,9 +736,13 @@ function App() {
               <button
                 type="button"
                 className="glass-button close-button"
-                onClick={() => setSelectedProjectId(null)}
+                aria-label="Close project details"
+                onClick={closeProjectOverlay}
               >
-                Close
+                <span className="close-icon" aria-hidden="true">
+                  <span />
+                  <span />
+                </span>
               </button>
             </div>
 
@@ -672,27 +780,38 @@ function App() {
 
               <div className="project-overlay-preview">
                 <div className="project-shot-stack">
-                  {selectedProject.screenshotTiles.map((tile) => (
-                    <div
-                      key={tile}
-                      className="screen-shot project-shot-tile"
-                      style={{ '--project-gradient': selectedProject.palette }}
-                    >
-                      <div className="shot-topbar">
-                        <span />
-                        <span />
-                        <span />
+                  {selectedProject.screenshotTiles.map((tile, index) => (
+                    selectedProject.screenshotImages?.[index] ? (
+                      <div key={tile} className="screen-shot project-shot-tile screen-shot-image-frame">
+                        <img
+                          src={selectedProject.screenshotImages[index]}
+                          alt={`${selectedProject.title} ${tile}`}
+                          className="project-real-shot"
+                        />
+                        <p>{tile}</p>
                       </div>
-                      <div className="shot-content">
-                        <div className="shot-graph" />
-                        <div className="shot-lines">
+                    ) : (
+                      <div
+                        key={tile}
+                        className="screen-shot project-shot-tile"
+                        style={{ '--project-gradient': selectedProject.palette }}
+                      >
+                        <div className="shot-topbar">
                           <span />
                           <span />
                           <span />
                         </div>
+                        <div className="shot-content">
+                          <div className="shot-graph" />
+                          <div className="shot-lines">
+                            <span />
+                            <span />
+                            <span />
+                          </div>
+                        </div>
+                        <p>{tile}</p>
                       </div>
-                      <p>{tile}</p>
-                    </div>
+                    )
                   ))}
                   <div
                     className="screen-shot project-shot-tile project-shot-tile-featured"

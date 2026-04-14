@@ -35,7 +35,7 @@ body {
     radial-gradient(circle at 50% 100%, rgba(28, 77, 208, 0.18), transparent 36%),
     var(--bg);
   color: var(--text);
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 a {
@@ -63,10 +63,9 @@ button {
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(circle at var(--cursor-x, 50%) var(--cursor-y, 50%), rgba(58, 129, 255, 0.22), transparent 16rem),
-    radial-gradient(circle at calc(var(--cursor-x, 50%) + 10%) calc(var(--cursor-y, 50%) - 8%), rgba(65, 192, 255, 0.14), transparent 18rem),
-    radial-gradient(circle at calc(var(--cursor-x, 50%) - 12%) calc(var(--cursor-y, 50%) + 10%), rgba(135, 109, 255, 0.08), transparent 20rem);
-  transition: background-position 120ms ease-out;
+    radial-gradient(circle at 20% 16%, rgba(58, 129, 255, 0.16), transparent 16rem),
+    radial-gradient(circle at 82% 22%, rgba(65, 192, 255, 0.1), transparent 18rem),
+    radial-gradient(circle at 32% 84%, rgba(135, 109, 255, 0.06), transparent 20rem);
 }
 
 .background-orb {
@@ -75,7 +74,6 @@ button {
   border-radius: 999px;
   filter: blur(90px);
   opacity: 0.45;
-  animation: floatShift 18s ease-in-out infinite alternate;
 }
 
 .orb-one {
@@ -126,7 +124,6 @@ button {
     radial-gradient(circle at 64% 72%, rgba(27, 72, 204, 0.16), transparent 22%),
     radial-gradient(circle at 30% 78%, rgba(118, 102, 255, 0.08), transparent 24%);
   filter: blur(34px);
-  animation: washMove 24s linear infinite alternate;
 }
 
 .cursor-glow {
@@ -140,8 +137,8 @@ button {
   border-radius: 50%;
   background: radial-gradient(circle, rgba(74, 143, 255, 0.18), rgba(62, 196, 255, 0.1) 42%, rgba(115, 108, 255, 0.06) 62%, transparent 72%);
   transform: translate(calc(var(--cursor-x, 50vw) - 14rem), calc(var(--cursor-y, 50vh) - 14rem));
-  transition: transform 120ms ease-out;
   filter: blur(18px);
+  opacity: 0.55;
 }
 
 .portfolio {
@@ -192,9 +189,10 @@ button {
 .project-card h3,
 .profile-card h2 {
   margin: 0;
-  font-family: 'Syne', sans-serif;
+  font-family: 'Orbitron', 'JetBrains Mono', monospace;
   line-height: 1.12;
   padding-bottom: 0.08em;
+  letter-spacing: 0.02em;
 }
 
 .hero h1 {
@@ -243,9 +241,8 @@ button {
   inset: -0.35rem -0.5rem;
   border-radius: 1rem;
   background: linear-gradient(90deg, rgba(112, 175, 255, 0.12), rgba(255, 255, 255, 0) 38%, rgba(112, 175, 255, 0.1));
-  opacity: 0;
+  opacity: 0.18;
   filter: blur(12px);
-  animation: summaryGlow 1400ms ease 760ms forwards;
   pointer-events: none;
 }
 
@@ -376,6 +373,11 @@ button {
   min-height: min(72vh, 760px);
   padding: 1.6rem 1.9rem;
   overflow: visible;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .profile-visual {
@@ -403,7 +405,6 @@ button {
     0 0 0 8px rgba(76, 140, 255, 0.14),
     0 26px 70px rgba(0, 0, 0, 0.32);
   position: relative;
-  animation: profileReveal 900ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 .profile-photo-ring::before,
@@ -447,7 +448,7 @@ button {
 }
 
 .profile-photo span {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Orbitron', 'JetBrains Mono', monospace;
   font-size: clamp(3.5rem, 8vw, 6.5rem);
   letter-spacing: 0.08em;
   color: #eef6ff;
@@ -469,43 +470,13 @@ button {
   gap: 0.2rem;
   min-width: 0;
   width: 100%;
-  animation: contentReveal 820ms cubic-bezier(0.2, 0.8, 0.2, 1) 120ms both;
 }
 
 .profile-content > * {
   min-width: 0;
   max-width: 100%;
-  opacity: 0;
-  transform: translateY(14px);
-  animation: textReveal 680ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-}
-
-.profile-content > *:nth-child(1) {
-  animation-delay: 120ms;
-}
-
-.profile-content > *:nth-child(2) {
-  animation-delay: 220ms;
-}
-
-.profile-content > *:nth-child(3) {
-  animation-delay: 320ms;
-}
-
-.profile-content > *:nth-child(4) {
-  animation-delay: 400ms;
-}
-
-.profile-content > *:nth-child(5) {
-  animation-delay: 500ms;
-}
-
-.profile-content > *:nth-child(6) {
-  animation-delay: 620ms;
-}
-
-.profile-content > *:nth-child(7) {
-  animation-delay: 720ms;
+  opacity: 1;
+  transform: none;
 }
 
 .profile-content h2 {
@@ -541,8 +512,8 @@ button {
 .stat-row div {
   padding: 1rem;
   border-radius: 1.1rem;
-  background: rgba(18, 28, 60, 0.58);
-  border: 1px solid rgba(100, 145, 255, 0.14);
+  background: transparent;
+  border: 1px solid rgba(100, 145, 255, 0.08);
 }
 
 .stat-row strong {
@@ -787,6 +758,21 @@ button {
   color: rgba(247, 243, 255, 0.92);
 }
 
+.screen-shot-image-frame {
+  background: linear-gradient(180deg, rgba(18, 28, 60, 0.82), rgba(8, 16, 38, 0.92));
+  overflow: hidden;
+}
+
+.project-real-shot {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0.95rem;
+  border: 1px solid rgba(126, 184, 255, 0.16);
+  background: rgba(10, 20, 48, 0.72);
+  object-fit: cover;
+}
+
 .project-overlay {
   position: fixed;
   inset: 0;
@@ -797,6 +783,7 @@ button {
   background: rgba(2, 7, 20, 0.7);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  animation: overlayFadeIn 220ms ease both;
 }
 
 .project-overlay-panel {
@@ -805,6 +792,19 @@ button {
   padding: 1.4rem;
   border-radius: 2rem;
   overflow: hidden;
+  animation: overlayPanelIn 260ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.project-overlay.is-closing {
+  animation: overlayFadeOut 260ms ease both;
+}
+
+.project-overlay.is-closing .project-overlay-panel {
+  animation: overlayPanelOut 260ms ease both;
+}
+
+.project-overlay.is-closing .close-icon span {
+  animation: closeDissolve 220ms ease both;
 }
 
 .project-overlay-header {
@@ -924,7 +924,52 @@ button {
 }
 
 .close-button {
-  min-width: 7rem;
+  width: 3.2rem;
+  height: 3.2rem;
+  min-width: 3.2rem;
+  min-height: 3.2rem;
+  padding: 0;
+  border-radius: 50%;
+}
+
+.close-icon {
+  position: relative;
+  display: inline-block;
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.close-icon span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  height: 2px;
+  border-radius: 999px;
+  background: #eef4ff;
+  transform-origin: center;
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    background-color 220ms ease;
+}
+
+.close-icon span:first-child {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.close-icon span:last-child {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.close-button:hover .close-icon span:first-child {
+  transform: translate(-50%, -50%) rotate(135deg) scaleX(1.08);
+  box-shadow: 0 0 10px rgba(255, 120, 120, 0.38);
+}
+
+.close-button:hover .close-icon span:last-child {
+  transform: translate(-50%, -50%) rotate(45deg) scaleX(1.08);
+  box-shadow: 0 0 10px rgba(255, 120, 120, 0.38);
 }
 
 .resume-section,
@@ -1068,7 +1113,7 @@ button {
 }
 
 .skill-logo text {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 6px;
   font-weight: 700;
   text-anchor: middle;
@@ -1233,28 +1278,48 @@ button {
   color: #d8e9ff;
 }
 
-.contact-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+.contact-logos {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 1rem;
+  padding: 0.6rem 0 0.2rem;
 }
 
-.contact-card {
-  display: grid;
-  gap: 0.3rem;
-  padding: 1.2rem;
-  border-radius: 1.35rem;
-  background: rgba(15, 29, 67, 0.62);
-  border: 1px solid rgba(94, 151, 255, 0.18);
+.contact-logo-link {
+  display: inline-grid;
+  place-items: center;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 1.2rem;
+  border: 1px solid rgba(94, 151, 255, 0.16);
+  background: rgba(255, 255, 255, 0.03);
+  color: #eaf3ff;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease;
 }
 
-.contact-card span {
-  color: var(--muted);
-  font-size: 0.92rem;
+.contact-logo-link:hover {
+  transform: translateY(-4px);
+  border-color: rgba(126, 184, 255, 0.32);
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.2);
 }
 
-.contact-card strong {
-  font-size: 1.05rem;
+.contact-logo-link svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.contact-logo-link svg path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .page-credit {
@@ -1345,9 +1410,12 @@ button {
     flex-direction: column;
   }
 
-  .stat-row,
-  .contact-grid {
+  .stat-row {
     grid-template-columns: 1fr;
+  }
+
+  .contact-logos {
+    justify-content: center;
   }
 
   .section-heading h2 {
@@ -1408,6 +1476,62 @@ button {
   }
   100% {
     transform: translate3d(-1%, 4%, 0) scale(0.98);
+  }
+}
+
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes overlayFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes overlayPanelIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes overlayPanelOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(12px) scale(0.985);
+    filter: blur(8px);
+  }
+}
+
+@keyframes closeDissolve {
+  0% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translate(-50%, -50%) scaleX(0.25) rotate(90deg);
   }
 }
 

@@ -3,3 +3,6 @@ node_modules
 # SSH Keys
 *.pem
 *.pub
+
+#Readme
+README.md
